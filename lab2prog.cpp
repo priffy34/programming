@@ -23,7 +23,7 @@ void program1() {
             clean();
             continue;
         }
-        if (str > 10 || col > 10 || str<=0 || col<=0) {
+        if (str > 10 || col > 10 || str <= 0 || col <= 0) {
             printf("ОШИБКА!попробуй целое число не больше 10!\n>>>> ");
             clean();
             continue;
@@ -50,20 +50,32 @@ void program2() {
     printf("\n-----------------------------------------------------------------------\n");
     printf("этот код определяет максимальное количество введенных подряд пробелов\n");
     printf("-----------------------------------------------------------------------\n");
-    char text[1000];
+
+    char* text = NULL;
+    int size = 1000;
     int maxspace = 1, space = 1;
+
+    text = (char*)malloc(size * sizeof(char));
+    if (text == NULL) {
+        printf("Ошибка выделения памяти!\n");
+        return;
+    }
+
     printf("напишите текст(для конца ввода поставьте @ и нажмите ENTER)\n>>>>");
-    for (int i = 0; i < 999; i++) {
+
+    for (int i = 0; i < size - 1; i++) {
         scanf("%c", &text[i]);
-        if (text[i] == '@')
+        if (text[i] == '@') {
             break;
-        if (text[i] == ' ' && text[i - 1] == ' ') {
+        }
+        if (text[i] == ' ' && i > 0 && text[i - 1] == ' ') {
             space++;
             if (space > maxspace)
                 maxspace = space;
         }
         else space = 1;
     }
+
     printf("-----------------------------------------------------------------------\nРезультат:\n");
     if (strchr(text, ' ') != NULL)
         printf("максимальное число подряд стоящих пробелов: %d", maxspace);
@@ -71,6 +83,7 @@ void program2() {
         printf("пробелов в этом тексте нет");
     printf("\n-----------------------------------------------------------------------\n");
 
+    free(text);
 }
 
 int main() {
